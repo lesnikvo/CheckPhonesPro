@@ -98,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             int eventAction = event.getAction();
+            /*
+            -- теперь switch с идентификаторами ресурсов не работает
             switch (v.getId()) {
                 case R.id.imageLeft:
                     if (eventAction == MotionEvent.ACTION_UP) {
@@ -132,6 +134,44 @@ public class MainActivity extends AppCompatActivity {
                     }
                     return true;
             }
+            */
+
+            if (v.getId() == R.id.imageLeft) {
+                if (eventAction == MotionEvent.ACTION_UP) {
+                    if (mStreamID > 0) {
+                        mSoundPool.stop(mStreamID);
+                        imageLeft.setImageResource(R.drawable.headphonesleft);
+                    }
+                }
+                if (eventAction == MotionEvent.ACTION_DOWN) {
+                    mStreamID = playSound(mShotSound, true);
+                    imageLeft.setImageResource(R.drawable.headphonesleftsound);
+                }
+                if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+                    mSoundPool.stop(mStreamID);
+                    imageLeft.setImageResource(R.drawable.headphonesleft);
+                }
+                return true;
+            }
+
+            if (v.getId() == R.id.imageRight){
+                if (eventAction == MotionEvent.ACTION_UP) {
+                    if (mStreamID > 0) {
+                        mSoundPool.stop(mStreamID);
+                        imageRight.setImageResource(R.drawable.headphonesright);
+                    }
+                }
+                if (eventAction == MotionEvent.ACTION_DOWN) {
+                    mStreamID = playSound(mShotSound, false);
+                    imageRight.setImageResource(R.drawable.headphonesrightsound);
+                }
+                if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+                    mSoundPool.stop(mStreamID);
+                    imageRight.setImageResource(R.drawable.headphonesright);
+                }
+                return true;
+            }
+
             return false;
         }
     };
